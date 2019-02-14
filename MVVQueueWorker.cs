@@ -34,11 +34,11 @@ namespace MVVQueues
                     try 
                     { 
                         cmd.ExecuteCommand();
+                        cmd.OnComplete();
                     }
                     catch(Exception ex) 
                     {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine(ex.StackTrace);
+                        cmd.OnError(ex);
 
                         throw ex;
                     }

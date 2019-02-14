@@ -31,5 +31,7 @@ namespace MVVQueues
         /// Executes the command.
         /// </summary>
         public abstract void ExecuteCommand();
+        public void OnError(Exception ex) { }
+        public void OnComplete() { }
     }
 }
