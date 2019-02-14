@@ -3,7 +3,8 @@
 
 
 ## Usage 
-1. Create a
+1. Create a queue with desired number of workers
+2. Create a a command and push it to a queue whenver ready
 
 ## Queue Commands
 Are the structures that have to be executed. 
@@ -15,7 +16,7 @@ Create your own command to be executed and make sure to override methods
 
 
 Note:
-> Commands can (and should) create next commands
+> Commands can (and should) create commands that need to happed in case of successful execution and on error
 
 ```csharp
 public class DBCommandCreateEntity:MVVQueues.MVVQueueCommand
