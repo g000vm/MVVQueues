@@ -25,13 +25,22 @@ namespace MVVQueues
         {
             get { return _queue; }
         }
+
+        internal MVVQueueWorker worker; 
+        public object WorkerSharedObject
+        {
+            get { return worker.sharedObject; }
+            set { worker.sharedObject = value; }
+        }
+
         #endregion
 
         /// <summary>
         /// Executes the command.
-        /// </summary>
+
+
         public abstract void ExecuteCommand();
-        public void OnError(Exception ex) { }
-        public void OnComplete() { }
+        public virtual void OnError(Exception ex) { }
+        public virtual void OnComplete() { }
     }
 }

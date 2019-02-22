@@ -11,7 +11,6 @@ namespace MVVQueues
         /// Initializes a new instance of the <see cref="T:queues.QueueWorker"/> class.
         /// </summary>
         /// <param name="queue">Queue to work on</param>
-
         internal MVVQueueWorker(MVVQueue queue):base()
         {
             _queue = queue;
@@ -20,6 +19,22 @@ namespace MVVQueues
         }
 
         private bool _isRequestedToStop = false;
+
+        private bool _isBusy;
+
+        /// <summary>
+        /// indicates  whenever current worker is executing something
+        /// </summary>
+        /// <value><c>true</c> if is busy; otherwise, <c>false</c>.</value>
+        public bool isBusy 
+        {
+            get { return _isBusy; }
+        }
+
+       
+
+        public object sharedObject 
+        { get; set; }
 
         internal void Run() 
         {
@@ -31,17 +46,25 @@ namespace MVVQueues
 
                 if (cmd != null) 
                 {
+                    _isBusy = true;
+
                     try 
-                    { 
+                    {
+                        cmd.worker = this;
+
                         cmd.ExecuteCommand();
                         cmd.OnComplete();
                     }
                     catch(Exception ex) 
                     {
                         cmd.OnError(ex);
+                        _isBusy = false;
+
+                        Console.WriteLine(ex.ToString());
 
                         throw ex;
                     }
+                    _isBusy = false;
                 }
 
                 Thread.Sleep(1);
